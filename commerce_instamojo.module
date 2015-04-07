@@ -123,10 +123,14 @@ function instamojo_redirect_form($form, &$form_state, $order, $payment_method) {
   $profile_id  = $order->commerce_customer_billing['und'][0]['profile_id'];
   $profile = commerce_customer_profile_load($profile_id);
 
+  $full_name = trim(substr($profile->commerce_customer_address['und'][0]['first_name'] . ' '. $profile->commerce_customer_address['und'][0]['last_name'], 0, 20));
+  $email = substr($order->mail, 0, 75);
+  $phone = substr($profile->field_phone_no['und'][0]['value'], 0, 20);
+
   $data = Array();
-  $data['data_email']  = $order->mail;
-  $data['data_phone']  = $profile->field_phone_no['und'][0]['value'];;
-  $data['data_name']   =  $profile->commerce_customer_address['und'][0]['first_name'] . ' '. $profile->commerce_customer_address['und'][0]['last_name'];
+  $data['data_email']  = $email;
+  $data['data_phone']  = $phone;
+  $data['data_name']   =  $full_name;
   $data['data_amount'] = $order->commerce_order_total['und'][0]['amount'] / 100;
   $data['data_' . $custom_field] = $order_id . '-' .Date('his');
   ksort($data, SORT_STRING | SORT_FLAG_CASE);
@@ -159,7 +163,7 @@ function page_response_data(){
   $auth_token = variable_get('auth_token');
   $custom_field = variable_get('custom_field');
 
-  $api = new InstamojoAPI($api_key, $auth_token, 'http://local.instamojo.com:5000/api/1.1/');
+  $api = new InstamojoAPI($api_key, $auth_token, 'https://www.instamojo.com/api/1.1/');
 
   $all_fine = TRUE;
   try {
@@ -196,6 +200,7 @@ function page_response_data(){
     // http://drupal.stackexchange.com/a/90889
 
     rules_invoke_all('commerce_payment_order_paid_in_full', $commerce_order, $transaction);
+    // Update the order's data array to indicate this just happened.
     $commerce_order->data['commerce_payment_order_paid_in_full_invoked'] = TRUE;
     commerce_order_save($commerce_order);
     // Note: Some user defined rules can still override this
