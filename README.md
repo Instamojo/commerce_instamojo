@@ -5,7 +5,7 @@ This module allows us to use [Instamojo](https://www.instamojo.com) as Payment G
 
 ###Installation
 ---
-- Download the [zip file](https://github.com/ashwch/commerce_instamojo/archive/master.zip) and unpack its files into a folder named **commerce_instamojo** into the modules folder of your Drupal installation. You will have to create the folder **commerce_instamojo** if not present already. So, after extraction `modules/instamojo` will looks like. The location of modules folder is `[DRUPAL-ROOT-FOLDER]/sites/all/modules/` .
+- Download the [zip file](https://github.com/ashwch/commerce_instamojo/archive/master.zip) and unpack its files into a folder named **commerce_instamojo** into the modules folder of your Drupal installation. You will have to create the folder **commerce_instamojo** if not present already. The location of modules folder is `[DRUPAL-ROOT-FOLDER]/sites/all/modules/` .
     
 - Browse to Drupal permission page and allow Anonymous as well as Authenticated users to use Instamojo payment gateway.
 - Now go to the configuration page of Instamojo and and enable it. 

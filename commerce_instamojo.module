@@ -133,7 +133,17 @@ function instamojo_redirect_form($form, &$form_state, $order, $payment_method) {
   $data['data_name']   =  $full_name;
   $data['data_amount'] = $order->commerce_order_total['und'][0]['amount'] / 100;
   $data['data_' . $custom_field] = $order_id . '-' .Date('his');
-  ksort($data, SORT_STRING | SORT_FLAG_CASE);
+
+  $ver = explode('.', phpversion());
+  $major = (int) $ver[0];
+  $minor = (int) $ver[1];
+  if($major >= 5 and $minor >= 4){
+       ksort($data, SORT_STRING | SORT_FLAG_CASE);
+  }
+  else{
+       uksort($data, 'strcasecmp');
+  }
+
   $message = implode('|', $data);
   $sign = hash_hmac("sha1", $message, $private_salt);
   $data['data_sign'] = $sign;
