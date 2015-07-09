@@ -125,7 +125,7 @@ function instamojo_redirect_form($form, &$form_state, $order, $payment_method) {
 
   $full_name = trim(substr($profile->commerce_customer_address['und'][0]['first_name'] . ' '. $profile->commerce_customer_address['und'][0]['last_name'], 0, 20));
   $email = substr($order->mail, 0, 75);
-  $phone = substr($profile->field_phone_no['und'][0]['value'], 0, 20);
+  $phone = trim(substr($profile->field_phone_no['und'][0]['value'], 0, 20), '+');
 
   $data = Array();
   $data['data_email']  = $email;
